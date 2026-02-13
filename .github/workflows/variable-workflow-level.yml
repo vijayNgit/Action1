@@ -1,0 +1,13 @@
+name: Variables Demo
+
+on: push
+
+env:
+  APP_NAME: MyApp
+  ENVIRONMENT: production
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "App is $APP_NAME in $ENVIRONMENT"
