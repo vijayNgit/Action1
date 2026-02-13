@@ -1,42 +1,34 @@
-name: Multi Job Workflow
+name: Artifact Example
 
-on:
-  push:
-    branches:
-      - main
+on: push
 
 jobs:
-  job1:
-    name: Build Job
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Build Message
-        run: echo "Building the project..."
+      - name: Create file
+        run: |
+          echo "Build output data" > output.txt
 
-  job2:
-    name: Test Job
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: output.txt
+
+  test:
     runs-on: ubuntu-latest
-    needs: job1   # Runs after job1 completes
+    needs: build
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
 
-      - name: Test Message
-        run: echo "Running tests..."
-
-  job3:
-    name: Deploy Job
-    runs-on: ubuntu-latest
-    needs: job2   # Runs after job2
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Deploy Message
-        run: echo "Deploying application..."
+      - name: Show artifact content
+        run: cat output.txt
