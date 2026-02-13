@@ -40,13 +40,3 @@ jobs:
 
       - name: Deploy Message
         run: echo "Deploying application..."
-
-        runs-on: ubuntu-latest
-        steps: 
-        - name: check repo 
-          uses: actions/checkout@v6 
-        - name: Welcome Message and Read file
-          run: |
-            echo "My First Github Action Job"
-            ls -ltra 
-            cat README.md
